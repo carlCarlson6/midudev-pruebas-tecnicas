@@ -23,13 +23,14 @@ export interface Author {
 }
 
 const getBooksFromJson = (): BookDto[] => booksJson.library.map(book => book.book);
-
 export const getAvailabreGenres = () => [...new Set(getBooksFromJson().map(x => x.genre))];
+
+const useReadingListLocalStorage = () => useLocalStorage<string[]>("reading-list", []);
 
 export const useCatalog = (genreFilter: string = '') => {
     console.log('genreFilter', typeof genreFilter)
     const {addToReadingList, removeFromReadList} = useReadingList();
-    const [isbnsOnReadingList] = useLocalStorage<string[]>("reading-list", []);
+    const [isbnsOnReadingList] = useReadingListLocalStorage();
     const books = genreFilter === '' ? getBooksFromJson() : getBooksFromJson().filter(x => x.genre === genreFilter);    
     return {
         catalog: books.map(book => ({
@@ -42,9 +43,8 @@ export const useCatalog = (genreFilter: string = '') => {
     };
 }
 
-export const useReadingList = () => {
-    const [isbnsOnReadingList, set] = useLocalStorage<string[]>("reading-list", []);
-
+const useReadingList = () => {
+    const [isbnsOnReadingList, set] = useReadingListLocalStorage();
     return {
         addToReadingList: (book: BookDto) => {
             if (isbnsOnReadingList.findIndex(x => x === book.ISBN) !== -1)
