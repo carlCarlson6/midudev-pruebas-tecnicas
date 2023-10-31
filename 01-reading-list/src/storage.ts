@@ -1,5 +1,5 @@
 import { useLocalStorage } from "usehooks-ts";
-import booksJson from "./books.json";
+import booksJson from "./assets/books.json";
 
 export interface BookDto {
     title: string
@@ -23,20 +23,17 @@ export interface Author {
 }
 
 const getBooksFromJson = (): BookDto[] => booksJson.library.map(book => book.book);
+
 export const getAvailabreGenres = () => [...new Set(getBooksFromJson().map(x => x.genre))];
 
-const useReadingListLocalStorage = () => useLocalStorage<string[]>("reading-list", []);
-
 export const useCatalog = (genreFilter: string = '') => {
-    console.log('genreFilter', typeof genreFilter)
-    const {addToReadingList, removeFromReadList} = useReadingList();
-    const [isbnsOnReadingList] = useReadingListLocalStorage();
+    const { booksOnReadingList, addToReadingList, removeFromReadList } = useReadingList();
     const books = genreFilter === '' ? getBooksFromJson() : getBooksFromJson().filter(x => x.genre === genreFilter);    
     return {
         catalog: books.map(book => ({
             ...book,
-            isOnReadingList: isbnsOnReadingList.findIndex(x => x === book.ISBN) !== -1,
-            mutateReadingList: () => isbnsOnReadingList.findIndex(x => x === book.ISBN) === -1
+            isOnReadingList: booksOnReadingList.findIndex(x => x === book.ISBN) !== -1,
+            mutateReadingList: () => booksOnReadingList.findIndex(x => x === book.ISBN) === -1
                 ? addToReadingList(book)
                 : removeFromReadList(book)
         })),
@@ -44,13 +41,14 @@ export const useCatalog = (genreFilter: string = '') => {
 }
 
 const useReadingList = () => {
-    const [isbnsOnReadingList, set] = useReadingListLocalStorage();
+    const [booksOnReadingList, set] = useLocalStorage<string[]>("reading-list", []);
     return {
+        booksOnReadingList,
         addToReadingList: (book: BookDto) => {
-            if (isbnsOnReadingList.findIndex(x => x === book.ISBN) !== -1)
+            if (booksOnReadingList.findIndex(x => x === book.ISBN) !== -1)
                 return;
-            set([book.ISBN, ...isbnsOnReadingList]);
+            set([book.ISBN, ...booksOnReadingList]);
         },
-        removeFromReadList: (book: BookDto) => set(isbnsOnReadingList.filter(x => x !== book.ISBN)),
+        removeFromReadList: (book: BookDto) => set(booksOnReadingList.filter(x => x !== book.ISBN)),
     };
 }
