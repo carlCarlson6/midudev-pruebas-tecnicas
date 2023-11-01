@@ -20,9 +20,9 @@ export const GenreFilter = () => {
                 <Stack 
                     direction={'column'}
                 >     
-                    <Radio value="" colorScheme={'gray'}>Todos</Radio>
+                    <Radio value="" colorScheme={'gray'} key={""}>Todos</Radio>
                     {
-                        getAvailabreGenres().map(x => <Radio value={x}>{x}</Radio>)
+                        getAvailabreGenres().map(x => <Radio value={x} key={x}>{x}</Radio>)
                     }
                 </Stack>
             </Box>

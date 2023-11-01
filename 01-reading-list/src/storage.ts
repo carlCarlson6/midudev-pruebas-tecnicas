@@ -1,5 +1,6 @@
 import { useLocalStorage } from "usehooks-ts";
 import booksJson from "./assets/books.json";
+import { useSelectedBook } from "./library/available-book";
 
 export interface BookDto {
     title: string
@@ -22,13 +23,13 @@ export interface Author {
     otherBooks: string[]
 }
 
-const getBooksFromJson = (): BookDto[] => booksJson.library.map(book => book.book);
+export const getBooksFromJson = (): BookDto[] => booksJson.library.map(book => book.book);
 
 export const getAvailabreGenres = () => [...new Set(getBooksFromJson().map(x => x.genre))];
 
 export const useCatalog = (genreFilter: string = '') => {
     const { booksOnReadingList, addToReadingList, removeFromReadList } = useReadingList();
-    const books = genreFilter === '' ? getBooksFromJson() : getBooksFromJson().filter(x => x.genre === genreFilter);    
+    const books = genreFilter === '' ? getBooksFromJson() : getBooksFromJson().filter(x => x.genre === genreFilter);
     return {
         catalog: books.map(book => ({
             ...book,
@@ -40,7 +41,7 @@ export const useCatalog = (genreFilter: string = '') => {
     };
 }
 
-const useReadingList = () => {
+export const useReadingList = () => {
     const [booksOnReadingList, set] = useLocalStorage<string[]>("reading-list", []);
     return {
         booksOnReadingList,
