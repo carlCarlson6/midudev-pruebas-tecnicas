@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BookEntity, useCatalog } from "../storage";
-import { Box, Button, Card, CardBody, CardFooter, Flex, HStack, Heading, Image, ListItem, Spacer, Stack, Tag, Text, UnorderedList } from "@chakra-ui/react";
+import { Button, Card, CardBody, CardFooter, Flex, Heading, Image, ListItem, Spacer, Stack, Tag, Text, UnorderedList } from "@chakra-ui/react";
 import { CheckCircleIcon, DeleteIcon, PlusSquareIcon, SmallAddIcon } from '@chakra-ui/icons';
 
 export const BookDetail: React.FC<{isbn: string}> = ({isbn}) => {

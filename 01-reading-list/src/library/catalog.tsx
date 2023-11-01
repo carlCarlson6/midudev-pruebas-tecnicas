@@ -1,4 +1,4 @@
-import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { GenreFilter } from "./genre-filter";
 import { AvailableBooks } from "./available-books";
 import { useSelectedBook } from "./available-book";
