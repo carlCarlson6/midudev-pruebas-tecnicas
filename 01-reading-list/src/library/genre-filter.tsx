@@ -8,6 +8,7 @@ export const GenreFilter = () => {
         <RadioGroup 
             defaultValue=""
             onChange={x => selectGenre(x)}
+            width={'10rem'}
         >
             <Box
                 border={'2px'}
@@ -16,6 +17,7 @@ export const GenreFilter = () => {
                 padding={'1rem'}
                 textColor={'gray.100'}
                 backgroundColor={'gray.500'}
+                
             >
                 <Stack 
                     direction={'column'}
