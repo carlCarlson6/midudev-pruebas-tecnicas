@@ -1,30 +1,8 @@
 import { useLocalStorage } from "usehooks-ts";
 import booksJson from "./assets/books.json";
+import { BookDto } from "./assets/models";
 
-export interface BookDto {
-    title: string
-    pages: number
-    genre: string
-    cover: string
-    synopsis: string
-    year: number
-    ISBN: string
-    author: Author
-}
-  
-export type BookEntity = BookDto & {
-    isOnReadingList: boolean,
-    mutateReadingList: () => void,
-}
-
-export interface Author {
-    name: string
-    otherBooks: string[]
-}
-
-const getBooksFromJson = (): BookDto[] => booksJson.library.map(book => book.book);
-
-export const getAvailabreGenres = () => [...new Set(getBooksFromJson().map(x => x.genre))];
+export const getBooksFromJson = (): BookDto[] => booksJson.library.map(book => book.book);
 
 export const useCatalog = (genreFilter: string = '') => {
     const { booksOnReadingList, addToReadingList, removeFromReadList } = useReadingList();

@@ -1,9 +1,9 @@
 import { Box, Radio, RadioGroup, Stack } from "@chakra-ui/react";
-import { getAvailabreGenres } from "../storage";
 import { create } from "zustand";
+import { getBooksFromJson } from "../storage";
 
 export const GenreFilter = () => {
-    const { setGenre: selectGenre } = useGenresState();
+    const { setGenre: selectGenre, allGenres } = useGenresState();
     return (<>
         <RadioGroup 
             defaultValue=""
@@ -17,15 +17,14 @@ export const GenreFilter = () => {
                 padding={'1rem'}
                 textColor={'gray.100'}
                 backgroundColor={'gray.500'}
-                
             >
                 <Stack 
                     direction={'column'}
                 >     
                     <Radio value="" colorScheme={'gray'} key={""}>Todos</Radio>
-                    {
-                        getAvailabreGenres().map(x => <Radio value={x} key={x}>{x}</Radio>)
-                    }
+                    { allGenres.map(x => 
+                        <Radio value={x} key={x}>{x}</Radio>
+                    )}
                 </Stack>
             </Box>
         </RadioGroup>
@@ -33,8 +32,10 @@ export const GenreFilter = () => {
 }
 export const useGenresState = create<{
     genre: string,
+    allGenres: string[],
     setGenre: (genre: string) => void
 }>()(set => ({
     genre: "",
+    allGenres: [...new Set(getBooksFromJson().map(x => x.genre))],
     setGenre: genre => set({genre})
 }));

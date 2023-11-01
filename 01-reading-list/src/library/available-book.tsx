@@ -1,6 +1,6 @@
 import { Box, Image } from "@chakra-ui/react";
-import { BookEntity } from "../storage";
 import { create } from "zustand";
+import { BookEntity } from "../assets/models";
 
 export const AvailableBook = ({ book }: { book: BookEntity; }) => {
     const { book: selectedBook, select, unselect } = useSelectedBook();
@@ -14,12 +14,12 @@ export const AvailableBook = ({ book }: { book: BookEntity; }) => {
                 objectFit={'contain'}
                 src={book.cover}
                 alt={book.title} 
-                background={isSelected ? 'gray.300' : 'gray.400'}
+                background={ isSelected ? 'gray.300' : 'gray.400' }
                 p={'10px'}
                 onClick={_ => isSelected ? unselect() : select(book)}
                 shadow={'2xl'}
                 border={'2px'}
-                borderColor={ isSelected ? 'gray.100' : 'gray.500'}
+                borderColor={ isSelected ? 'gray.100' : 'gray.500' }
                 borderRadius={'md'}
                 _hover={{
                 cursor: 'pointer',

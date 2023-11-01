@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { BookEntity, useCatalog } from "../storage";
-import { Button, Card, CardBody, CardFooter, Flex, Heading, Image, ListItem, Spacer, Stack, Tag, Text, UnorderedList } from "@chakra-ui/react";
-import { CheckCircleIcon, DeleteIcon, PlusSquareIcon, SmallAddIcon } from '@chakra-ui/icons';
+import React from "react";
+import { useCatalog } from "../storage";
+import { Card, CardBody, CardFooter, Divider, Flex, Heading, Image, ListItem, Spacer, Stack, Tag, Text, UnorderedList } from "@chakra-ui/react";
+import { ReadingListButton } from "../reading-list/reading-list-button";
 
 export const BookDetail: React.FC<{isbn: string}> = ({isbn}) => {
     const book = useCatalog().catalog.find(x => x.ISBN === isbn);
 
-    if (!book) return <></>;
-
+    if (!book) return (<></>);
     return (<>
         <Card
-            border={'4px'}
-            borderColor={'gray.500'}
+            border={'2px'}
+            borderColor={'gray.200'}
             borderRadius={'md'}
             direction={{ base: 'column', sm: 'row' }}
             overflow={'hidden'}
@@ -46,11 +45,12 @@ export const BookDetail: React.FC<{isbn: string}> = ({isbn}) => {
                     >
                         {book.year}
                     </Heading>
-                    <Text maxWidth={'34rem'}>
+                    <Text maxWidth={'34rem'} paddingTop={'1rem'} paddingBottom={'1rem'}>
                         {book.synopsis}
                     </Text>
-                    <Text textColor={'gray.500'}>
-                        You may also be interested in:
+                    <Divider />
+                    <Text textColor={'gray.500'} paddingTop={'1rem'}>
+                        Another books by the author:
                     </Text>
                     <UnorderedList paddingLeft={'1.5rem'} textColor={'gray.500'}>
                         {book.author.otherBooks.map(x => (
@@ -58,48 +58,19 @@ export const BookDetail: React.FC<{isbn: string}> = ({isbn}) => {
                         ))}
                     </UnorderedList>
                 </CardBody>
+                <Divider />
                 <CardFooter>
                     <Flex minWidth='max-content' alignItems='center' gap='2'>
-                        <MutateReadingListButton book={book} />
+                        <ReadingListButton book={book} />
                         <Spacer />
                         <Tag>{book.genre}</Tag>
+                        <Spacer/>
+                        <Tag>{book.pages} pages</Tag>
                         <Spacer />
                         <Tag>ISBN: {book.ISBN}</Tag>
                     </Flex>
                 </CardFooter>
             </Stack>
         </Card>
-    </>);
-}
-
-const MutateReadingListButton: React.FC<{book: BookEntity}> = ({book}) => (<>{ 
-    book.isOnReadingList 
-        ? <RemoveFromReadingListButton mutateReadingList={book.mutateReadingList} /> 
-        : <AddToReadingListButton mutateReadingList={book.mutateReadingList} />
-}</>);
-
-const AddToReadingListButton: React.FC<{mutateReadingList: () => void}> = ({mutateReadingList}) => {
-    const [isOver, setIsOver] = useState(false);
-    return (<>
-        <Button 
-            onMouseOver={_ => setIsOver(true)} 
-            onMouseOut={_ => setIsOver(false)}
-            onClick={_ => mutateReadingList()}
-        >
-            { isOver ? <PlusSquareIcon /> : <SmallAddIcon />}
-        </Button>
-    </>);
-}
-
-const RemoveFromReadingListButton: React.FC<{mutateReadingList: () => void}> = ({mutateReadingList}) => {
-    const [isOver, setIsOver] = useState(false);
-    return (<>
-        <Button 
-            onMouseOver={_ => setIsOver(true)} 
-            onMouseOut={_ => setIsOver(false)}
-            onClick={_ => mutateReadingList()}
-        >
-            { isOver ? <DeleteIcon /> : <CheckCircleIcon />}
-        </Button>
     </>);
 }
