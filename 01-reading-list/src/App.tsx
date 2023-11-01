@@ -1,12 +1,21 @@
-import { Flex } from "@chakra-ui/react";
-import { AvailableBooks } from "./library/available-books";
-import { GenreFilter } from "./library/genre-filter";
+import { Box } from "@chakra-ui/react";
+import { Catalog } from "./library/catalog";
+import { NavBar, useNavigation } from "./assets/layout/nav-bar";
+import { match } from "ts-pattern";
+import { MyReadingList } from "./reading-list/my-reading-list";
 
 export const App = () => {
+	const {nav} = useNavigation();
 	return (<>
-		<Flex gap={5}>
-			<GenreFilter />
-			<AvailableBooks />	
-		</Flex>
+		<Box>
+			<NavBar />
+			{match(nav)
+				.with("catalog", () => (<Catalog />))
+				.with("reading-list", ()=> (<MyReadingList />))
+				.exhaustive()}
+		</Box>
+		
 	</>);
 }
+
+

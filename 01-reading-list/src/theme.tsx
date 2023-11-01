@@ -16,11 +16,18 @@ const Button = defineStyleConfig({
 	defaultProps: {
 	  	variant: 'outline',
 	},
-})
+});
+
+const Radio = defineStyleConfig({
+	defaultProps: {
+		colorScheme: 'gray'
+	}
+});
 
 export const theme = extendTheme({
 	components: {
 		Button,
+		Radio
 	},
 	styles: {
 		global: {
