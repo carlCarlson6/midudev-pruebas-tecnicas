@@ -2,7 +2,7 @@ import { Center, Grid, Link, Spacer } from "@chakra-ui/react";
 import { create } from "zustand";
 
 export const NavBar = () => {
-	const {setNav} = useNavigation();
+	const {nav, setNav} = useNavigation();
 	return (<>
 		<Center
 			paddingBottom={'0.75rem'}
@@ -17,12 +17,14 @@ export const NavBar = () => {
 			<Grid templateColumns='repeat(3, 1fr)' gap={7}>
 				<Link
 					onClick={_ => setNav("catalog")}
+					textDecoration={nav === "catalog" ? "underline" : ""}
 				>
 					Catalog
 				</Link>
 				<Spacer />
 				<Link
 					onClick={_ => setNav("reading-list")}
+					textDecoration={nav === "reading-list" ? "underline" : ""}
 				>
 					Reading List
 				</Link>
