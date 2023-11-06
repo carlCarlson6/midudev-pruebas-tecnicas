@@ -2,13 +2,15 @@ import React from "react";
 import { useCatalog } from "../storage";
 import { Card, CardBody, CardFooter, Divider, Flex, Heading, Image, ListItem, Spacer, Stack, Tag, Text, UnorderedList } from "@chakra-ui/react";
 import { ReadingListButton } from "../reading-list/reading-list-button";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export const BookDetail: React.FC<{isbn: string}> = ({isbn}) => {
     const book = useCatalog().catalog.find(x => x.ISBN === isbn);
-
+    const [parent] = useAutoAnimate();
     if (!book) return (<></>);
-    return (<>
+    return (<div>
         <Card
+            ref={parent}
             border={'2px'}
             borderColor={'gray.200'}
             borderRadius={'md'}
@@ -72,5 +74,5 @@ export const BookDetail: React.FC<{isbn: string}> = ({isbn}) => {
                 </CardFooter>
             </Stack>
         </Card>
-    </>);
+    </div>);
 }

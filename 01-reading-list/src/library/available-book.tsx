@@ -22,7 +22,7 @@ export const AvailableBook = ({ book }: { book: BookEntity; }) => {
                 borderColor={ isSelected ? 'gray.100' : 'gray.500' }
                 borderRadius={'md'}
                 _hover={{
-                cursor: 'pointer',
+                    cursor: 'pointer',
                 }}
                 />
         </Box>
